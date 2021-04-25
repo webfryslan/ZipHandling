@@ -83,6 +83,21 @@ public class UnZipDocument extends CustomJavaAction<java.util.List<IMendixObject
                 }
                   
             }
+            else
+            	{  	try {
+            	
+            		entry = zip.getNextEntry();
+            		if (entry == null) {
+            			fileCheck=0; // EOF reached
+           	 	}
+          	  }
+            	
+            catch (IOException e)
+            {
+            	fileCheck=0; // EOF reached
+            }
+         }
+     
          
         }
 
