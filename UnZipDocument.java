@@ -36,7 +36,7 @@ public class UnZipDocument extends CustomJavaAction<java.util.List<IMendixObject
 		this.__ZipFile = ZipFile;
 	}
 
-	@Override
+	@java.lang.Override
 	public java.util.List<IMendixObject> executeAction() throws Exception
 	{
 		this.ZipFile = __ZipFile == null ? null : system.proxies.FileDocument.initialize(getContext(), __ZipFile);
@@ -84,19 +84,19 @@ public class UnZipDocument extends CustomJavaAction<java.util.List<IMendixObject
                   
             }
             else
-            	{  	try {
+            {  	try {
             	
-            		entry = zip.getNextEntry();
-            		if (entry == null) {
-            			fileCheck=0; // EOF reached
-           	 	}
-          	  }
+            	entry = zip.getNextEntry();
+            	if (entry == null) {
+            		fileCheck=0; // EOF reached
+            	}
+            }
             	
             catch (IOException e)
             {
             	fileCheck=0; // EOF reached
             }
-         }
+            }
      
          
         }
@@ -113,7 +113,7 @@ public class UnZipDocument extends CustomJavaAction<java.util.List<IMendixObject
 	/**
 	 * Returns a string representation of this action
 	 */
-	@Override
+	@java.lang.Override
 	public java.lang.String toString()
 	{
 		return "UnZipDocument";
