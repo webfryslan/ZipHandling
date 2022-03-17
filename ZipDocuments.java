@@ -31,20 +31,25 @@ public class ZipDocuments extends CustomJavaAction<IMendixObject>
 {
 	private java.util.List<IMendixObject> __ListOfDocument;
 	private java.util.List<system.proxies.FileDocument> ListOfDocument;
+	private IMendixObject __ZipFile;
+	private system.proxies.FileDocument ZipFile;
 
-	public ZipDocuments(IContext context, java.util.List<IMendixObject> ListOfDocument)
+	public ZipDocuments(IContext context, java.util.List<IMendixObject> ListOfDocument, IMendixObject ZipFile)
 	{
 		super(context);
 		this.__ListOfDocument = ListOfDocument;
+		this.__ZipFile = ZipFile;
 	}
 
-	@Override
+	@java.lang.Override
 	public IMendixObject executeAction() throws Exception
 	{
 		this.ListOfDocument = new java.util.ArrayList<system.proxies.FileDocument>();
 		if (__ListOfDocument != null)
 			for (IMendixObject __ListOfDocumentElement : __ListOfDocument)
 				this.ListOfDocument.add(system.proxies.FileDocument.initialize(getContext(), __ListOfDocumentElement));
+
+		this.ZipFile = __ZipFile == null ? null : system.proxies.FileDocument.initialize(getContext(), __ZipFile);
 
 		// BEGIN USER CODE
 		
@@ -72,20 +77,21 @@ public class ZipDocuments extends CustomJavaAction<IMendixObject>
 		}
 		zipStream.close();
 		
-		IMendixObject mendixObject = Core.instantiate(getContext(), "System.FileDocument");
-		mendixObject.setValue(getContext(), "Name" , "output.zip" );
-		mendixObject.setValue(getContext(), "DeleteAfterDownload" , "true" );
+		if (__ZipFile == null) {
+	    __ZipFile = Core.instantiate(getContext(), "System.FileDocument");
+		__ZipFile.setValue(getContext(), "Name" , "output.zip" );
+		__ZipFile.setValue(getContext(), "DeleteAfterDownload" , "true" );}
 
 		InputStream zipInputStream = new FileInputStream(tempZipFile);
 	
-		Core.storeFileDocumentContent(getContext(), mendixObject, zipInputStream);
-		
+		Core.storeFileDocumentContent(getContext(), __ZipFile, zipInputStream);
+
 		zipInputStream.close();
 	
 		tempZipFile.delete();
 		
 	
-	    return mendixObject;		
+	    return __ZipFile;		
 		
 		// END USER CODE
 	}
@@ -93,7 +99,7 @@ public class ZipDocuments extends CustomJavaAction<IMendixObject>
 	/**
 	 * Returns a string representation of this action
 	 */
-	@Override
+	@java.lang.Override
 	public java.lang.String toString()
 	{
 		return "ZipDocuments";
